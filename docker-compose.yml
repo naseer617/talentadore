@@ -1,0 +1,69 @@
+version: '3.9'
+
+services:
+
+  comment-db:
+    image: postgres:14
+    ports:
+      - "5433:5432"  # host:container
+    environment:
+      POSTGRES_DB: comment_db
+      POSTGRES_USER: ${COMMENT_DB_USER}
+      POSTGRES_PASSWORD: ${COMMENT_DB_PASSWORD}
+    volumes:
+      - comment-db-data:/var/lib/postgresql/data
+    networks:
+      - internal
+
+  member-db:
+    image: postgres:14
+    ports:
+      - "5434:5432"
+    environment:
+      POSTGRES_DB: member_db
+      POSTGRES_USER: ${MEMBER_DB_USER}
+      POSTGRES_PASSWORD: ${MEMBER_DB_PASSWORD}
+    volumes:
+      - member-db-data:/var/lib/postgresql/data
+    networks:
+      - internal
+
+  comment-service:
+    build: ./comment-service
+    environment:
+      - DB_HOST=comment-db
+      - DB_NAME=comment_db
+      - DB_USER=${COMMENT_DB_USER}
+      - DB_PASSWORD=${COMMENT_DB_PASSWORD}
+    depends_on:
+      - comment-db
+    networks:
+      - internal
+
+  member-service:
+    build: ./member-service
+    environment:
+      - DB_HOST=member-db
+      - DB_NAME=member_db
+      - DB_USER=${MEMBER_DB_USER}
+      - DB_PASSWORD=${MEMBER_DB_PASSWORD}
+    depends_on:
+      - member-db
+    networks:
+      - internal
+  gateway-service:
+    build: ./gateway-service
+    ports:
+      - "8000:8000"
+    depends_on:
+      - comment-service
+      - member-service
+    networks:
+      - internal
+volumes:
+  comment-db-data:
+  member-db-data:
+
+networks:
+  internal:
+    driver: bridge
