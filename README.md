@@ -90,36 +90,14 @@ docker compose logs -f
 docker compose down
 ```
 
-### Development
+### API Documentation
 
-Each service can be run independently for development:
+Once the services are running, you can access the API documentation through the following URLs:
 
-1. **Comment Service**
-```bash
-cd comment-service
-python -m venv .venv
-source .venv/bin/activate  # or `.venv\Scripts\activate` on Windows
-pip install -r requirements.txt
-uvicorn app.main:app --reload
-```
-
-2. **Member Service**
-```bash
-cd member-service
-python -m venv .venv
-source .venv/bin/activate  # or `.venv\Scripts\activate` on Windows
-pip install -r requirements.txt
-uvicorn app.main:app --reload
-```
-
-3. **Gateway Service**
-```bash
-cd gateway-service
-python -m venv .venv
-source .venv/bin/activate  # or `.venv\Scripts\activate` on Windows
-pip install -r requirements.txt
-uvicorn app.main:app --reload
-```
+- **Gateway Service API Docs**: [http://localhost:8000/docs](http://localhost:8000/docs)
+  - Interactive Swagger UI documentation
+  - Test API endpoints directly from the browser
+  - View request/response schemas and models
 
 ## Testing
 
@@ -137,8 +115,8 @@ Each service includes its own test suite with setup scripts and test runners. Th
    To run the setup script:
    ```bash
    cd <service-directory>  # e.g., comment-service or member-service
-   chmod +x setup-test-env.sh
-   ./setup-test-env.sh
+   chmod +x tests/setup-test.sh
+   ./tests/setup-tests.sh
    ```
 
 2. **Test Database**
@@ -202,14 +180,3 @@ source .venv/bin/activate
 ```
 
 Note: Always ensure you're in the virtual environment before running tests. The test scripts will check for this and warn you if you're not.
-
-## Contributing
-
-1. Create a new branch for your feature
-2. Make your changes
-3. Run tests to ensure everything works
-4. Submit a pull request
-
-## License
-
-This project is licensed under the terms of the license included in the repository.
