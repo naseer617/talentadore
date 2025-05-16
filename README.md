@@ -99,6 +99,104 @@ Once the services are running, you can access the API documentation through the 
   - Test API endpoints directly from the browser
   - View request/response schemas and models
 
+## API Testing with curl
+
+You can test the API endpoints using curl commands. Here are examples for both services:
+
+### Member Service
+
+1. Create a member:
+```bash
+curl -X POST http://localhost:8000/members \
+  -H "Content-Type: application/json" \
+  -d '{
+    "first_name": "John",
+    "last_name": "Doe",
+    "login": "johndoe",
+    "email": "john.doe@example.com",
+    "title": "Software Engineer",
+    "avatar_url": "https://example.com/avatar.jpg",
+    "followers": 0,
+    "following": 0
+  }'
+```
+
+2. Get all members:
+```bash
+curl -X GET http://localhost:8000/members
+```
+
+3. Delete all members (soft delete):
+```bash
+curl -X DELETE http://localhost:8000/members
+```
+
+4. Delete a specific member (replace {id} with actual member ID):
+```bash
+curl -X DELETE http://localhost:8000/members/{id}
+```
+
+### Comment Service
+
+1. Create a comment:
+```bash
+curl -X POST http://localhost:8000/comments \
+  -H "Content-Type: application/json" \
+  -d '{"feedback": "This is a test comment"}'
+```
+
+2. Get all comments:
+```bash
+curl -X GET http://localhost:8000/comments
+```
+
+3. Delete all comments (soft delete):
+```bash
+curl -X DELETE http://localhost:8000/comments
+```
+
+4. Delete a specific comment (replace {id} with actual comment ID):
+```bash
+curl -X DELETE http://localhost:8000/comments/{id}
+```
+
+### Complete Test Flow
+
+Here's a complete test flow that creates and deletes both a member and a comment:
+
+```bash
+# 1. Create a member
+curl -X POST http://localhost:8000/members \
+  -H "Content-Type: application/json" \
+  -d '{
+    "first_name": "John",
+    "last_name": "Doe",
+    "login": "johndoe",
+    "email": "john.doe@example.com",
+    "title": "Software Engineer"
+  }'
+
+# 2. Create a comment
+curl -X POST http://localhost:8000/comments \
+  -H "Content-Type: application/json" \
+  -d '{"feedback": "Great service!"}'
+
+# 3. Get all members and comments to see IDs
+curl -X GET http://localhost:8000/members
+curl -X GET http://localhost:8000/comments
+
+# 4. Delete specific member and comment (replace {member_id} and {comment_id} with actual IDs)
+curl -X DELETE http://localhost:8000/members/{member_id}
+curl -X DELETE http://localhost:8000/comments/{comment_id}
+```
+
+Note:
+- All endpoints return JSON responses
+- POST requests require the `Content-Type: application/json` header
+- Member creation requires at least `first_name`, `last_name`, `login`, and `email` fields
+- Comment creation only requires the `feedback` field
+- DELETE endpoints perform soft deletes (they mark records as deleted but don't remove them from the database)
+
 ## Testing
 
 Each service includes its own test suite with setup scripts and test runners. The test environment requires a virtual environment and a test database.
