@@ -29,7 +29,11 @@ services:
       - internal
 
   comment-service:
-    build: ./comment-service
+    build:
+      context: .
+      dockerfile: comment-service/Dockerfile
+    volumes:
+      - ./shared:/app/shared
     environment:
       - DB_HOST=comment-db
       - DB_NAME=comment_db
@@ -41,7 +45,11 @@ services:
       - internal
 
   member-service:
-    build: ./member-service
+    build:
+      context: .
+      dockerfile: member-service/Dockerfile
+    volumes:
+      - ./shared:/app/shared
     environment:
       - DB_HOST=member-db
       - DB_NAME=member_db
