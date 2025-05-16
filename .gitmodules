@@ -1,3 +1,9 @@
 [submodule "shared"]
 	path = shared
 	url = git@github.com:naseer617/ta-common.git
+[submodule "member-service"]
+	path = member-service
+	url = git@github.com:naseer617/ta-member-service.git
+[submodule "comment-service"]
+	path = comment-service
+	url = git@github.com:naseer617/ta-comment-service.git
