@@ -4,6 +4,10 @@ Talentadore is a microservices-based platform built with FastAPI, PostgreSQL, an
 
 ## Project Structure
 
+Below is the high-level architecture diagram of the Talentadore platform:
+
+![Architecture Diagram](architecture.png)
+
 The project is organized into several microservices and shared components:
 
 ```
